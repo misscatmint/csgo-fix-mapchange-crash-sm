@@ -8,7 +8,7 @@ public Plugin myinfo =
 	name = "Reconnect Players",
 	author = "Ilusion9",
 	description = "Reconnect players on map change.",
-	version = "1.0",
+	version = "1.0.1",
 	url = "https://github.com/Ilusion9/"
 };
 
@@ -35,6 +35,18 @@ public Action CommandListener_Map(int client, const char[] command, int args)
 	if (g_ChangeLevelArgs[0])
 	{
 		return Plugin_Handled;
+	}
+	else
+	{
+		for (int i = 1; i <= MaxClients; i++)
+		{
+			if (!IsClientInGame(i) || IsFakeClient(i))
+			{
+				continue;
+			}
+			
+			ClientCommand(i, "disconnect;retry");
+		}
 	}
 	
 	return Plugin_Continue;
